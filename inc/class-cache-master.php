@@ -156,35 +156,6 @@ class Cache_Master
 			}
 		}
 
-		// Support to WooCommerce plugin.
-		$woocommerce_support       = get_option('scm_option_woocommerce_status');
-		$woocommerce_post_types    = get_option('scm_option_woocommerce_post_types');
-		$woocommerce_post_archives = get_option('scm_option_woocommerce_post_archives');
-
-		if ('yes' === $woocommerce_support) {
-
-			if ($is_singular) {
-				if (isset($woocommerce_post_types['product']) && is_singular('product')) {
-					$this->is_cache  = true;
-					$this->data_type = 'product';
-					return;
-				}
-			} elseif ($is_archive) {
-				$woocommerce_archives = array(
-					'product_cat',
-					'product_tag',
-				);
-
-				foreach ($woocommerce_archives as $type) {
-					if (isset($woocommerce_post_archives[$type]) && is_tax($type)) {
-						$this->is_cache  = true;
-						$this->data_type = $type;
-						return;
-					}
-				}
-			}
-		}
-
 		// Do not cache 404 page.
 		if (is_404()) {
 			$this->is_cache = false;
